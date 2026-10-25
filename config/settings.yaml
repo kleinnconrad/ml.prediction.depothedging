@@ -2,7 +2,7 @@
 
 # Data Ingestion
 # The HTTP endpoint where the engine fetches the latest predictions from the external Machine Learning model.
-predictor_url: "https://raw.githubusercontent.com/kleinnconrad/stock-predictor/main/data/processed/full_batch_report.json"
+predictor_url: "https://raw.githubusercontent.com/kleinnconrad/ml.prediction.stocks/main/data/processed/full_batch_report.json"
 
 # Expected Returns Configuration
 # The theoretical Return on Investment (ROI) assigned to stocks that the predictor flags as "UP_FINAL_BUY".
