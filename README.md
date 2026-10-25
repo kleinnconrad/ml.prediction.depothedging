@@ -1,5 +1,5 @@
-[![Run Hedging Engine](https://github.com/kleinnconrad/depot-hedging-strategist/actions/workflows/run_hedger.yml/badge.svg)](https://github.com/kleinnconrad/depot-hedging-strategist/actions/workflows/run_hedger.yml)
-[![CI](https://github.com/kleinnconrad/depot-hedging-strategist/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kleinnconrad/depot-hedging-strategist/actions/workflows/ci.yml)
+[![Run Hedging Engine](https://github.com/kleinnconrad/ml.prediction.depothedging/actions/workflows/run_hedger.yml/badge.svg)](https://github.com/kleinnconrad/ml.prediction.depothedging/actions/workflows/run_hedger.yml)
+[![CI](https://github.com/kleinnconrad/ml.prediction.depothedging/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kleinnconrad/ml.prediction.depothedging/actions/workflows/ci.yml)
 
 # Depot Hedging Strategist
 
