@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/kleinnconrad/ml.prediction.depothedging/compare/v1.2.0...v1.2.1) (2026-11-05)
+
+
+### Documentation
+
+* **readme:** describe the 3.x buy candidates of the stock predictor ([4b1093f](https://github.com/kleinnconrad/ml.prediction.depothedging/commit/4b1093f046a5e5b5ed1de7493eb1713ca22ae8cc))
+
 ## [1.2.0](https://github.com/kleinnconrad/ml.prediction.depothedging/compare/v1.1.1...v1.2.0) (2026-10-09)
 
 
