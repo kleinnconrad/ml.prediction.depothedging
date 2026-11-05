@@ -17,11 +17,11 @@ This directory contains the core logic of the application. It consists of module
 
 ### `main.py`
 
-This is the main entry point for the portfolio hedging engine pipeline. It coordinates data ingestion, risk metrics calculation, and portfolio optimization, and saves the final optimal weights.
+This is the main entry point for the portfolio hedging engine pipeline. It coordinates data ingestion, risk metrics calculation, and portfolio optimization, and saves the resulting weights to `data/results.json`. It saves them also if the optimization fails; these weights then do not necessarily meet the constraints (see [Consequences for the Hedging Engine](../README.md#consequences-for-the-hedging-engine)).
 
 ### `ingestion.py`
 
-This script handles loading configuration and external data. It provides functions to load settings from the central configuration file (`config/settings.yaml`), fetch the latest expected returns (predictions) from an external HTTP endpoint, and load the current portfolio state from environment variables.
+This script handles loading configuration and external data. It provides functions to load settings from the central configuration file (`config/settings.yaml`), fetch the current batch report of the stock predictor (with the buy candidates marked `UP_FINAL_BUY`) from the HTTP endpoint configured as `predictor_url`, and load the current portfolio state from environment variables.
 
 ### `risk_metrics.py`
 
@@ -29,7 +29,7 @@ This script calculates risk metrics for the portfolio assets. It retrieves histo
 
 ### `optimizer.py`
 
-This script performs the core portfolio optimization. It executes a Markowitz Mean-Variance optimization process to find an asset allocation that minimizes portfolio variance while adhering to a specified minimum expected return and defined asset weight boundaries.
+This script performs the core portfolio optimization. It executes a Markowitz Mean-Variance optimization with SciPy's `SLSQP` algorithm that maximizes the expected portfolio return. The constraints are: the weights sum to 1.0, the expected return minus `regular_circumstance_z_score` portfolio standard deviations must be at least `min_portfolio_return`, each stock weight is between 0 and `max_stock_weight`, and each hedging asset (such as `CASH`) weight is between 0 and 1.0.
 
 ## Architecture Diagram
 
