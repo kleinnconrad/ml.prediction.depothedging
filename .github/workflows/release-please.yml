@@ -28,11 +28,28 @@ jobs:
       # project's own version; a release merged with a stale lock fails `uv lock --check` and
       # every `uv run --locked` step in CI. prs_created is 'true' when a release pull request was
       # created or updated, and pr is that pull request as JSON (headBranchName, number, ...).
+      # On other runs, such as the run after a release pull request is merged, pr is empty.
+      # The runner evaluates the env block of a step before its if condition, also for a step
+      # that it then skips, and fromJSON('') fails the step. No env block therefore parses pr:
+      # this step reads the branch name from the raw text, and the steps below use that string.
+      - name: Read the branch of the release pull request
+        id: release_pr
+        if: ${{ steps.release.outputs.prs_created == 'true' }}
+        env:
+          PR_JSON: ${{ steps.release.outputs.pr }}
+        run: |
+          branch=$(jq -r '.headBranchName // empty' <<< "$PR_JSON")
+          if [ -z "$branch" ]; then
+            echo "::error::The output pr of release-please has no headBranchName."
+            exit 1
+          fi
+          echo "branch=${branch}" >> "$GITHUB_OUTPUT"
+
       - name: Check out the release pull request
         if: ${{ steps.release.outputs.prs_created == 'true' }}
         uses: actions/checkout@v7
         with:
-          ref: ${{ fromJSON(steps.release.outputs.pr).headBranchName }}
+          ref: ${{ steps.release_pr.outputs.branch }}
 
       - name: Set up uv
         if: ${{ steps.release.outputs.prs_created == 'true' }}
@@ -44,7 +61,7 @@ jobs:
       - name: Update uv.lock on the release pull request
         if: ${{ steps.release.outputs.prs_created == 'true' }}
         env:
-          BRANCH: ${{ fromJSON(steps.release.outputs.pr).headBranchName }}
+          BRANCH: ${{ steps.release_pr.outputs.branch }}
         run: |
           uv lock
           if git diff --quiet -- uv.lock; then
