@@ -74,6 +74,8 @@ The `CI` workflow (`.github/workflows/ci.yml`) runs on every pull request and on
 | `Conventional Commits` | Every commit of a pull request follows the Conventional Commits format required by Release Please (pull requests only) |
 | `CI passed` | Succeeds only if all jobs above succeeded or were skipped; use it as the single required status check in the branch protection of `main` |
 
+Release Please changes the version in `pyproject.toml` but not in `uv.lock`. When it creates or updates a release pull request, the `release-please` workflow (`.github/workflows/release-please.yml`) therefore runs `uv lock` on that branch and pushes the updated `uv.lock` as `chore: update uv.lock for the release`. This push uses the workflow's `GITHUB_TOKEN` and does not start the `CI` workflow; to run the checks on the release pull request before merging, close and reopen it.
+
 Run the Python checks locally before pushing:
 ```bash
 uv lock --check
